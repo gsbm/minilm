@@ -356,4 +356,3 @@ class LanguageModel(nn.Module):
             indices_to_remove.scatter_(-1, sorted_indices, sorted_mask)
             logits = logits.masked_fill(indices_to_remove, float("-inf"))
         return logits
-

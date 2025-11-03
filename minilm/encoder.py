@@ -208,4 +208,3 @@ class Encoder(nn.Module):
         token_tensor = token_tensor.unsqueeze(0).to(device=device)
         mask_tensor = mask_tensor.unsqueeze(0).to(device=device)
         return token_tensor, mask_tensor
-

@@ -201,4 +201,3 @@ class Tokenizer:
         if not isinstance(text, str) or not text:
             raise ValueError("Tokenizer.tokenize expects 'text' to be a non-empty string.")
         return text.strip().split()
-
