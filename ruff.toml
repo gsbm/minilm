@@ -1,5 +1,5 @@
 lint.ignore = ["E203"]
-exclude = ["__pycache__", ".venv", ".temp", "build", "dist"]
+exclude = ["__pycache__", ".venv", ".temp", "build", "dist", "setup.py"]
 lint.extend-select = [
     "F",        # Pyflakes rules
     "W",        # PyCodeStyle warnings
