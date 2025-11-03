@@ -1,55 +1,62 @@
 # minilm
 
-minilm is a lightweight toolkit for experimenting with compact language models. It offers a complete pipeline from tokenisation and encoding through training, evaluation, and text generation while staying dependency-light and easy to extend.
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+
+> A lightweight toolkit for experimenting with compact language models
+
+`minilm` offers a complete pipeline from tokenisation and encoding through training, evaluation, and text generation while staying dependency-light and easy to extend.
+
+## Table of Contents
+
+- [Installation](#installation)
+    - [From Source](#from-source)
+    - [Development](#development)
+- [Documentation](#documentation)
+    - [Overview](#overview)
+    - [Components](#components)
+    - [Examples](#examples)
+- [License](#license)
 
 ## Installation
 
+### From Source
+
+For the latest features and development version:
+
 ```bash
+git clone https://github.com/gsbm/minilm.git
+cd minilm
 pip install -e .
 ```
 
-For development (tests, linting, property-based checks):
+### Development
+
+To set up the development environment with all test and documentation dependencies:
 
 ```bash
+git clone https://github.com/gsbm/minilm.git
+cd minilm
 pip install -r requirements-dev.txt
+pre-commit install
 ```
 
-## Quick start
+## Documentation
 
-```python
-from minilm import Tokenizer, Encoder, LanguageModel, Trainer
+### Examples
 
-texts = ["hello world", "hello there", "general kenobi"]
+Check out the `examples/` directory for more comprehensive examples:
 
-# 1. Tokenise and fit vocabulary
-tokenizer = Tokenizer(vocab_size=64)
-tokenizer.fit(texts)
+- [Quick Start](examples/quickstart.py) - Basic usage example
+- [Training on Custom Data](examples/train_parquet.py) - Training on a larger dataset
+- [Resuming Training](examples/resume_from_checkpoint.py) - How to resume training from a checkpoint
 
-# 2. Build encoder and language model
-encoder = Encoder(vocab_size=tokenizer.vocab_size, embedding_dim=32, hidden_dim=64, num_layers=2, num_heads=2)
-model = LanguageModel(encoder=encoder, tokenizer=tokenizer)
+### Components
 
-# 3. Prepare data loader and trainer
-trainer = Trainer(device="cpu", num_epochs=2, use_amp=False)
-loader = trainer.prepare_dataloader(dataset=texts, tokenizer=tokenizer, batch_size=2, sequence_length=32)
-trainer.train(model=model, train_loader=loader, validation_split=0.0)
-
-model.is_trained = True
-print(model.generate("hello", max_length=10))
-```
-
----
-
-## Package overview
-
-| Module | Description |
-| ------ | ----------- |
-| `minilm.tokenizer` | Word-level tokenizer with padding, truncation, and serialisation helpers. |
-| `minilm.encoder`   | Transformer-based encoder turning token IDs into contextual embeddings. |
-| `minilm.model`     | Decoder-only language model with sampling utilities and checkpointing. |
-| `minilm.trainer`   | Training orchestration with dataloader prep, schedulers, AMP, and evaluation. |
-
-Each module exports a primary class with well-defined public methods, detailed below with usage examples.
+- `Tokenizer`: Word-level tokenization with padding and truncation
+- `Encoder`: Transformer-based encoder architecture
+- `LanguageModel`: Complete language model with generation capabilities
+- `Trainer`: Training loop with various utilities
 
 ### `Tokenizer`
 
@@ -371,18 +378,6 @@ Example:
 ppl = trainer.evaluate_perplexity(model, ["hello world", "general kenobi"], batch_size=1)
 ```
 
----
+## License
 
-## Testing
-
-Run the full suite (unit, property-based, regression tests):
-
-```bash
-pytest
-```
-
-Key test categories include tokenizer edge cases, encoder validation, serialization round-trips, scheduler/AMP configuration, and property-based encode-decode checks.
-
-## Contributing
-
-Issues and pull requests are welcome. Please run `pytest` and ensure style/docstrings remain consistent with the existing codebase before submitting changes.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
